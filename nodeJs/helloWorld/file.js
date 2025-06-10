@@ -11,6 +11,7 @@ const fs = require('fs') // Importing the file system module
 
 
 
+
 // reading of a file in sync function
 
 // const result = fs.readFileSync("./contacts.txt", "utf-8")
