@@ -8,26 +8,36 @@ const myServer = http.createServer((req, res) => {
     const log = `${Date.now()}: ${req.url} New Req Received \n`;
     const myUrl = url.parse(req.url, true)
     console.log(myUrl)
-    fs.appendFile('log.txt', log, (err, data) => {})
+    fs.appendFile('log.txt', log, (err, data) => { })
 
-        switch(myUrl.pathname) {
-            case '/': res.end("<h1>HomePage</h1>")
+    switch (myUrl.pathname) {
+        case '/':
+            if (req.method === 'GET') res.end("<h1>HomePage</h1>")
             break;
-            case '/about':{
+        case '/about': {
             const username = myUrl.query.myname
             res.end(`Hi, ${username}`)
             break
-            }
-            case '/search': {
+        }
+        case '/search': {
             const search = myUrl.query.search_query
             res.end("Here are your results for " + search)
             break
-            }
-            default:
-                res.end("404 Not Found!")
         }
-        
-    
+        case '/signup': {
+            if (req.method === 'GET') res.end("This is a signup Form.")
+            else if (req.method === 'POST') {
+                // DB Query
+                res.end("Success")
+            }
+            break
+        }
+
+        default:
+            res.end("404 Not Found!")
+    }
+
+
 
 })
 
