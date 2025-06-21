@@ -1,9 +1,23 @@
 const http = require("http")
-const fs = require("fs")
-const url = require("url")
+// const fs = require("fs")
+// const url = require("url")
+const express = require("express")
 
-const myServer = http.createServer((req, res) => {
+const app = express()
 
+app.get('/', (req, res)=> {
+    return res.send("<h1>Hello from HomePage.</h1>")
+})
+
+app.get('/about', (req, res)=> {
+    return res.send("Hello from About Page.")
+    // return res.send(`Hello from About page, Hey ${req.query.name}, You are ${req.query.age}`)
+})
+
+
+
+function myHandler(req, res){
+// In this function we can write our own logic of nodeJs.
     if (req.url === "/favicon.ico") return res.end()
     const log = `${Date.now()}: ${req.url} New Req Received \n`;
     const myUrl = url.parse(req.url, true)
@@ -37,8 +51,13 @@ const myServer = http.createServer((req, res) => {
             res.end("404 Not Found!")
     }
 
+}
 
 
-})
+// const myServer = http.createServer(app)
 
-myServer.listen(3000, () => console.log("Server Stared!"))
+// myServer.listen(3000, () => console.log("Server Stared!"))
+
+
+
+app.listen(3000, () => console.log(("Server Started")))
