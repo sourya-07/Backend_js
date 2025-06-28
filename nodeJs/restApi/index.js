@@ -8,6 +8,24 @@ const PORT = 8000
 // Middleware - Plugin
 app.use(express.urlencoded({ extended: false }))
 
+app.use((req, res, next) => {
+
+    fs.appendFile("log.txt",
+        `\n${Date.now()}: ${req.ip} ${req.method}: ${req.path}`, (err, data) => {
+            next()
+        })
+    // console.log("Hello from middleware 1")
+    // req.myUserName = 'Sourya'
+    // return res.json({ msgs: "Hello from middleware 1" })
+    // next();
+})
+
+// app.use((req, res, next) => {
+//     // console.log("Hello from middleware 2", req.myUserName)
+//     // return res.json({ msgs: "Hello from middleware 1" })
+//     next()
+// })
+
 app.get('/users', (req, res) => {
     const html = `
     <ul>
