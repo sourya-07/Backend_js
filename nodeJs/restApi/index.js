@@ -1,6 +1,7 @@
 const express = require("express")
 const fs = require('fs')
 const users = require("./MOCK_DATA.json")
+const { error } = require("console")
 
 const app = express()
 const PORT = 8000
@@ -40,6 +41,9 @@ app.get('/users', (req, res) => {
 
 // Rest Api :-
 app.get('/api/users', (req, res) => {
+    res.setHeader("X-MyName", 'Sourya') // This is our custom Header
+    // Always add X to custom headers
+    console.log(req.headers)
     return res.json(users)
 })
 
@@ -50,6 +54,7 @@ app
     .get((req, res) => {
         const id = Number(req.params.id)
         const user = users.find((user) => user.id === id)
+        if(!user) return res.status(404).json({ error: 'user not found' })
         return res.json(user)
     })
     .patch((req, res) => {
@@ -73,10 +78,14 @@ app
 app.post('/api/users', (req, res) => {
     // TODO: Create new user
     const body = req.body
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title){
+        return res.status(400).json({ msg: 'All fields are req...' })
+    }
+
     // console.log("Body", body)
     users.push({ ...body, id: users.length + 1 })
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
-        return res.json({ status: 'success', id: users.length })
+        return res.status(201).json({ status: 'success', id: users.length })
     })
 })
 
