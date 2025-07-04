@@ -1,5 +1,5 @@
 const express = require("express")
-const {handleGetAllUsers, handleGetUserById, handleUpdateUserById, handleDeleteUserById, handleCreateNewUser} = require('../controllers/user')
+const { handleGetAllUsers, handleGetUserById, handleUpdateUserById, handleDeleteUserById, handleCreateNewUser } = require('../controllers/user')
 const router = express.Router()
 
 // Rest Api :-
